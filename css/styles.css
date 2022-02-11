@@ -1,0 +1,19 @@
+#mapContainer {
+  backgroundColor: #ccc;
+  flex-grow: 1
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  height: 100%;
+}
+
+.sidebar {
+  width: 400px;
+  height: 100%;
+}
