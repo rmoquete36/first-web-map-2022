@@ -17,49 +17,49 @@ $.getJSON('/data/pizzarows.json', function(pizzaRows) {
     // maxZoom: 14
   });
 
-  var popup = new mapboxgl.Popup({
-    offset: 40,
-  })
-    .setHTML('<h3>Washington Square Park</h3>');
-
-
-  // add a marker for the WSP fountain
-  var marker = new mapboxgl.Marker()
-    .setLngLat(wspCenter)
-    .setPopup(popup)
-    .addTo(map);
-
-
-  var pointsOfInterest = [
-    {
-      lngLat: [-73.996675,40.702154],
-      popupHtml: 'Brooklyn Bridge Park',
-      subText: 'I got married here'
-    },
-    {
-      lngLat: [-74.001619,40.705662],
-      popupHtml: 'South Street Seaport',
-      subText: 'This is new, they tore the old one down'
-    },
-    {
-      lngLat: [-74.044491,40.689300],
-      popupHtml: 'Statue of Liberty',
-      subText: 'July 4, 1776'
-    }
-  ]
-
-  pointsOfInterest.forEach(function(pointOfInterest) {
-    var popup = new mapboxgl.Popup({ offset: 40 })
-      .setHTML(`
-        <h3>${pointOfInterest.popupHtml}</h3>
-        <p>${pointOfInterest.subText}</p>
-      `);
-
-    new mapboxgl.Marker()
-      .setLngLat(pointOfInterest.lngLat)
-      .setPopup(popup)
-      .addTo(map);
-  })
+  // var popup = new mapboxgl.Popup({
+  //   offset: 40,
+  // })
+  //   .setHTML('<h3>Washington Square Park</h3>');
+  //
+  //
+  // // add a marker for the WSP fountain
+  // var marker = new mapboxgl.Marker()
+  //   .setLngLat(wspCenter)
+  //   .setPopup(popup)
+  //   .addTo(map);
+  //
+  //
+  // var pointsOfInterest = [
+  //   {
+  //     lngLat: [-73.996675,40.702154],
+  //     popupHtml: 'Brooklyn Bridge Park',
+  //     subText: 'I got married here'
+  //   },
+  //   {
+  //     lngLat: [-74.001619,40.705662],
+  //     popupHtml: 'South Street Seaport',
+  //     subText: 'This is new, they tore the old one down'
+  //   },
+  //   {
+  //     lngLat: [-74.044491,40.689300],
+  //     popupHtml: 'Statue of Liberty',
+  //     subText: 'July 4, 1776'
+  //   }
+  // ]
+  //
+  // pointsOfInterest.forEach(function(pointOfInterest) {
+  //   var popup = new mapboxgl.Popup({ offset: 40 })
+  //     .setHTML(`
+  //       <h3>${pointOfInterest.popupHtml}</h3>
+  //       <p>${pointOfInterest.subText}</p>
+  //     `);
+  //
+  //   new mapboxgl.Marker()
+  //     .setLngLat(pointOfInterest.lngLat)
+  //     .setPopup(popup)
+  //     .addTo(map);
+  // })
 
 
   // now add markers for our favorite pizza shops
