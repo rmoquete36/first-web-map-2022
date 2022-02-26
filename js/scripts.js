@@ -1,7 +1,31 @@
-
-
-$.getJSON('/data/pizzarows.json', function(pizzaRows) {
-  console.log(pizzaRows)
+//
+// var boronameLookup = (code) => {
+//   switch (code) {
+//     case 'Bronx':
+//       return {
+//         color: '#eac7f2',
+//         description: '1 & 2 Family',
+//       };
+//     case 2:
+//       return {
+//         color: '#f7d496',
+//         description: 'Multifamily Walk-up',
+//       };
+//     case 3:
+//       return {
+//         color: '#FF9900',
+//         description: 'Multifamily Elevator',
+//       };
+//     case 4:
+//       return {
+//         color: '#f7cabf',
+//         description: 'Mixed Res. & Commercial',
+//       };
+//     case 5:
+//       return {
+//         color: '#ea6661',
+//         description: 'Commercial & Office',
+//       };
 
   mapboxgl.accessToken = 'pk.eyJ1IjoiY3dob25nIiwiYSI6IjAyYzIwYTJjYTVhMzUxZTVkMzdmYTQ2YzBmMTM0ZDAyIn0.owNd_Qa7Sw2neNJbK6zc1A'
 
@@ -17,84 +41,28 @@ $.getJSON('/data/pizzarows.json', function(pizzaRows) {
     // maxZoom: 14
   });
 
-  // var popup = new mapboxgl.Popup({
-  //   offset: 40,
-  // })
-  //   .setHTML('<h3>Washington Square Park</h3>');
-  //
-  //
-  // // add a marker for the WSP fountain
-  // var marker = new mapboxgl.Marker()
-  //   .setLngLat(wspCenter)
-  //   .setPopup(popup)
-  //   .addTo(map);
-  //
-  //
-  // var pointsOfInterest = [
-  //   {
-  //     lngLat: [-73.996675,40.702154],
-  //     popupHtml: 'Brooklyn Bridge Park',
-  //     subText: 'I got married here'
-  //   },
-  //   {
-  //     lngLat: [-74.001619,40.705662],
-  //     popupHtml: 'South Street Seaport',
-  //     subText: 'This is new, they tore the old one down'
-  //   },
-  //   {
-  //     lngLat: [-74.044491,40.689300],
-  //     popupHtml: 'Statue of Liberty',
-  //     subText: 'July 4, 1776'
-  //   }
-  // ]
-  //
-  // pointsOfInterest.forEach(function(pointOfInterest) {
-  //   var popup = new mapboxgl.Popup({ offset: 40 })
-  //     .setHTML(`
-  //       <h3>${pointOfInterest.popupHtml}</h3>
-  //       <p>${pointOfInterest.subText}</p>
-  //     `);
-  //
-  //   new mapboxgl.Marker()
-  //     .setLngLat(pointOfInterest.lngLat)
-  //     .setPopup(popup)
-  //     .addTo(map);
-  // })
+  map.on('load', function() {
+    map.addSource('nta-map', {
+    type: 'geojson',
+    // Use a URL for the value for the `data` property.
+    data: './data/nta-map.geojson'
+    });
 
+    map.addLayer({
+    'id': 'nta-map-fill',
+    'type': 'fill',
+    'source': 'nta-map',
+    });
 
-  // now add markers for our favorite pizza shops
-  pizzaRows.forEach(function(pizzaRow) {
-    var popup = new mapboxgl.Popup({ offset: 40 })
-      .setHTML(`
-        <p><strong>${pizzaRow.firstname}</strong> loves the pizza at <strong>${pizzaRow.pizzashop}</strong></p>
-      `);
+    map.setPaintProperty('nta-map-fill', 'fill-color', [
+      'match'
+      ['get', "boroname"],
+      "Bronx", '#97a1f0',
+      "Brooklyn", '#eddc8e',
+      "Manhattan", '#b2edc2',
+      "Queens", '#deb2ed',
+      "Staten Island", '#edbab2',
+      '#ccc'
+    ])
 
-    // default is purple for Wagner
-    var color = 'purple'
-
-    if (pizzaRow.school === 'Tandon') {
-      color = 'orange'
-    }
-
-    if (pizzaRow.school === 'instructor') {
-      color = 'steelblue'
-    }
-
-    if (pizzaRow.school === 'CUSP') {
-      color = 'green'
-    }
-
-    if (pizzaRow.school === 'GSAS') {
-      color = 'pink'
-    }
-
-
-
-    new mapboxgl.Marker({
-      color: color
-    })
-      .setLngLat([pizzaRow.longitude, pizzaRow.latitude])
-      .setPopup(popup)
-      .addTo(map);
-  })
-})
+});
