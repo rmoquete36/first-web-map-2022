@@ -30,6 +30,15 @@
     }
     });
 
+    map.addLayer({
+    'id': 'nta-map-line',
+    'type': 'line',
+    'source': 'nta-map',
+    'paint': {
+      'line-color': '#1f1d1d'
+    }
+    });
+
     map.setPaintProperty('nta-map-fill', 'fill-color', [
       'match',
       ['get', 'boroname'],
