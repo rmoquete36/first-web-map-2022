@@ -1,5 +1,4 @@
 
-
   mapboxgl.accessToken = 'pk.eyJ1IjoiY3dob25nIiwiYSI6IjAyYzIwYTJjYTVhMzUxZTVkMzdmYTQ2YzBmMTM0ZDAyIn0.owNd_Qa7Sw2neNJbK6zc1A'
 
   // lngLat to show entire NYC on load
@@ -18,6 +17,12 @@
     type: 'geojson',
     // Use a URL for the value for the `data` property.
     data: './data/nta-map.geojson'
+    });
+
+    map.addSource('robberymap', {
+    type: 'geojson',
+    // Use a URL for the value for the `data` property.
+    data: './data/robberymap.geojson'
     });
 
     map.addLayer({
@@ -49,5 +54,15 @@
       'Staten Island', '#f2efd0',
       '#ede3e1'
     ]);
+
+    map.addLayer({
+    'id': 'robberymap-circle',
+    'type': 'circle',
+    'source': 'robberymap',
+    'paint': {
+      'circle-color': '#f2d0d5',
+      'circle-radius': 1,
+    }
+    });
 
 });
