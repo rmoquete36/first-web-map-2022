@@ -18,9 +18,19 @@ html, body {
   width: 400px;
   height: 100%;
   padding: 15px;
+  background-color: #ccc;
 }
 
 .sidebar h3 {
   font-size: 30px;
   text-align: center;
+}
+
+.center {
+  text-align: center;
+}
+
+.subtext {
+  text-align: center;
+  color: #e0707f;
 }

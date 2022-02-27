@@ -55,14 +55,69 @@
       '#ede3e1'
     ]);
 
+    // When a click event occurs on a feature in the nta-map-fill,
+    // open a popup at the location of the click, with nta name
+    // HTML from the click event's properties.
+    map.on('click', 'nta-map-fill', function(e) {
+    new mapboxgl.Popup()
+    .setLngLat(e.lngLat)
+    .setHTML(e.features[0].properties.ntaname)
+    .addTo(map);
+  });
+
+    // Change the cursor to a pointer when
+    // the mouse is over the nta-map-fill.
+    map.on('mouseenter', 'nta-map-fill', function() {
+    map.getCanvas().style.cursor = 'pointer';
+  });
+
+    // Change the cursor back to a pointer
+    // when it leaves the nta-map-fill.
+    map.on('mouseleave', 'nta-map-fill', function() {
+    map.getCanvas().style.cursor = '';
+  });
+
     map.addLayer({
     'id': 'robberymap-circle',
     'type': 'circle',
     'source': 'robberymap',
     'paint': {
       'circle-color': '#f2d0d5',
-      'circle-radius': 1,
+      'circle-radius': 2,
+      'circle-opacity': 0.5
     }
     });
+
+    // Create a popup.
+    const popup = new mapboxgl.Popup({
+      closeButton: false,
+      closeOnClick: false
+    });
+
+    map.on('mouseenter', 'robberymap-circle', function(e) {
+      // Change the cursor style as a UI indicator.
+      map.getCanvas().style.cursor = 'pointer';
+
+      // Copy coordinates array.
+      const coordinates = e.features[0].geometry.coordinates.slice();
+      const robType = e.features[0].properties.PD_DESC;
+      const precinct = e.features[0].properties.ADDR_PCT_CD;
+
+      // Ensure that if the map is zoomed out such that multiple
+      // copies of the feature are visible, the popup appears
+      // over the copy being pointed to.
+      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+      }
+
+    // Populate the popup and set its coordinates
+    // based on the feature found.
+        popup.setLngLat(coordinates).setHTML(`${precinct}`).addTo(map);
+    });
+
+        map.on('mouseleave', 'robberymap-circle', function() {
+        map.getCanvas().style.cursor = '';
+        popup.remove();
+      });
 
 });
